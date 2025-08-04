@@ -123,7 +123,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                       </span>
                       <Button 
                         size="sm"
-                        onClick={() => onNavigate('shop')}
+                        onClick={() => onNavigate('product', product)}
                         className="bg-accent hover:bg-accent/90 text-accent-foreground"
                       >
                         View Details

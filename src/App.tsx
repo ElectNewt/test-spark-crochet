@@ -7,9 +7,10 @@ import ShopPage from '@/components/pages/ShopPage'
 import BlogPage from '@/components/pages/BlogPage'
 import ContactPage from '@/components/pages/ContactPage'
 import ProductCheckout from '@/components/pages/ProductCheckout'
+import ProductPage from '@/components/pages/ProductPage'
 import BlogPost from '@/components/pages/BlogPost'
 
-type Page = 'home' | 'shop' | 'blog' | 'contact' | 'checkout' | 'blog-post'
+type Page = 'home' | 'shop' | 'blog' | 'contact' | 'product' | 'checkout' | 'blog-post'
 
 interface AppState {
   currentPage: Page
@@ -42,15 +43,21 @@ function App() {
   const renderPage = () => {
     switch (state.currentPage) {
       case 'shop':
-        return <ShopPage onProductSelect={(product) => navigateTo('checkout', product)} />
+        return <ShopPage onProductSelect={(product) => navigateTo('product', product)} />
       case 'blog':
         return <BlogPage onPostSelect={(post) => navigateTo('blog-post', post)} />
       case 'contact':
         return <ContactPage />
+      case 'product':
+        return <ProductPage 
+          product={state.selectedProduct} 
+          onBack={() => navigateTo('shop')} 
+          onBuyNow={(product) => navigateTo('checkout', product)} 
+        />
       case 'checkout':
-        return <ProductCheckout product={state.selectedProduct} onBack={() => navigateTo('shop')} />
+        return <ProductCheckout product={state.selectedProduct} onBack={() => navigateTo('product', state.selectedProduct)} />
       case 'blog-post':
-        return <BlogPost post={state.selectedBlogPost} onBack={() => navigateTo('blog')} onProductSelect={(product) => navigateTo('checkout', product)} />
+        return <BlogPost post={state.selectedBlogPost} onBack={() => navigateTo('blog')} onProductSelect={(product) => navigateTo('product', product)} />
       default:
         return <HomePage onNavigate={navigateTo} />
     }
