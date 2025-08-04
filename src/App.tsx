@@ -30,7 +30,7 @@ function App() {
     setState(prev => ({
       ...prev,
       currentPage: page,
-      selectedProduct: page === 'checkout' ? data : prev.selectedProduct,
+      selectedProduct: page === 'product' ? data : page === 'checkout' ? data : prev.selectedProduct,
       selectedBlogPost: page === 'blog-post' ? data : prev.selectedBlogPost,
       mobileMenuOpen: false
     }))

@@ -24,10 +24,83 @@ interface ShopPageProps {
 }
 
 export default function ShopPage({ onProductSelect }: ShopPageProps) {
-  const [products] = useKV<Product[]>('products', [])
+  const [products, setProducts] = useKV<Product[]>('products', [])
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [sortBy, setSortBy] = useState<string>('name')
+
+  // Initialize with sample products if empty
+  if (products.length === 0) {
+    const sampleProducts: Product[] = [
+      {
+        id: '1',
+        name: 'Cozy Winter Scarf',
+        price: 35.99,
+        image: '/sample-scarf.jpg',
+        description: 'A warm and stylish scarf perfect for cold winter days. Made with soft merino wool.',
+        category: 'Accessories',
+        featured: true,
+        visible: true,
+        inStock: true
+      },
+      {
+        id: '2',
+        name: 'Baby Blanket - Cloud',
+        price: 45.99,
+        image: '/sample-blanket.jpg',
+        description: 'Soft and gentle baby blanket in cloud white. Perfect for newborns and toddlers.',
+        category: 'Baby Items',
+        featured: true,
+        visible: true,
+        inStock: true
+      },
+      {
+        id: '3',
+        name: 'Vintage Doily Set',
+        price: 28.99,
+        image: '/sample-doily.jpg',
+        description: 'Beautiful set of 4 vintage-style doilies. Perfect for elegant table settings.',
+        category: 'Home Decor',
+        featured: false,
+        visible: true,
+        inStock: true
+      },
+      {
+        id: '4',
+        name: 'Kids Beanie - Rainbow',
+        price: 22.99,
+        image: '/sample-beanie.jpg',
+        description: 'Colorful rainbow beanie for kids. Fun and warm headwear for little ones.',
+        category: 'Kids',
+        featured: false,
+        visible: true,
+        inStock: false
+      },
+      {
+        id: '5',
+        name: 'Kitchen Dishcloths Set',
+        price: 18.99,
+        image: '/sample-dishcloths.jpg',
+        description: 'Set of 3 eco-friendly cotton dishcloths. Durable and absorbent.',
+        category: 'Kitchen',
+        featured: false,
+        visible: true,
+        inStock: true
+      },
+      {
+        id: '6',
+        name: 'Luxury Throw Pillow',
+        price: 52.99,
+        image: '/sample-pillow.jpg',
+        description: 'Elegant throw pillow with intricate crochet pattern. Adds comfort to any room.',
+        category: 'Home Decor',
+        featured: true,
+        visible: true,
+        inStock: true
+      }
+    ]
+    setProducts(sampleProducts)
+  }
 
   // Filter visible products only
   const visibleProducts = products.filter(p => p.visible)
@@ -139,7 +212,10 @@ export default function ShopPage({ onProductSelect }: ShopPageProps) {
             {filteredProducts.map((product) => (
               <Card key={product.id} className="group hover-lift gentle-shadow">
                 <CardContent className="p-0">
-                  <div className="aspect-square bg-muted rounded-t-lg flex items-center justify-center relative">
+                  <div 
+                    className="aspect-square bg-muted rounded-t-lg flex items-center justify-center relative cursor-pointer"
+                    onClick={() => onProductSelect(product)}
+                  >
                     <Heart size={48} className="text-accent/60" />
                     {product.featured && (
                       <Badge className="absolute top-3 left-3 bg-accent text-accent-foreground">
@@ -156,7 +232,10 @@ export default function ShopPage({ onProductSelect }: ShopPageProps) {
                     <Badge variant="outline" className="mb-2 text-xs">
                       {product.category}
                     </Badge>
-                    <h3 className="font-semibold text-lg mb-2 group-hover:text-accent transition-colors line-clamp-1">
+                    <h3 
+                      className="font-semibold text-lg mb-2 group-hover:text-accent transition-colors line-clamp-1 cursor-pointer"
+                      onClick={() => onProductSelect(product)}
+                    >
                       {product.name}
                     </h3>
                     <p className="text-muted-foreground text-sm mb-4 line-clamp-2">

@@ -15,6 +15,18 @@ export default function ProductPage({ product, onBack, onBuyNow }: ProductPagePr
   const [quantity, setQuantity] = useState(1)
   const [isFavorited, setIsFavorited] = useState(false)
 
+  // Handle missing product data
+  if (!product) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-foreground mb-4">Product Not Found</h1>
+          <Button onClick={onBack}>Back to Shop</Button>
+        </div>
+      </div>
+    )
+  }
+
   // Mock additional product images - in real app this would come from product data
   const productImages = [
     product.image,
@@ -43,12 +55,8 @@ export default function ProductPage({ product, onBack, onBuyNow }: ProductPagePr
           {/* Product Images */}
           <div className="space-y-4">
             {/* Main Image */}
-            <div className="aspect-square bg-card rounded-lg overflow-hidden gentle-shadow">
-              <img
-                src={productImages[selectedImage]}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
+            <div className="aspect-square bg-muted rounded-lg overflow-hidden gentle-shadow flex items-center justify-center">
+              <Heart size={64} className="text-accent/60" />
             </div>
 
             {/* Thumbnail Images */}
@@ -57,15 +65,11 @@ export default function ProductPage({ product, onBack, onBuyNow }: ProductPagePr
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`flex-1 aspect-square bg-card rounded-lg overflow-hidden border-2 transition-colors ${
+                  className={`flex-1 aspect-square bg-muted rounded-lg overflow-hidden border-2 transition-colors flex items-center justify-center ${
                     selectedImage === index ? 'border-accent' : 'border-border'
                   }`}
                 >
-                  <img
-                    src={image}
-                    alt={`${product.name} view ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
+                  <Heart size={24} className="text-accent/60" />
                 </button>
               ))}
             </div>
